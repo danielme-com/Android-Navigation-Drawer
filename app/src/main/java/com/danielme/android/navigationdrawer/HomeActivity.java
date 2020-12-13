@@ -90,7 +90,7 @@ public class HomeActivity extends AppCompatActivity
     Fragment fragment = HomeContentFragment.newInstance(getString(title));
     getSupportFragmentManager()
             .beginTransaction()
-            .setCustomAnimations(R.anim.bottom_nav_enter, R.anim.bottom_nav_exit)
+            .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
             .replace(R.id.home_content, fragment)
             .commit();
 
