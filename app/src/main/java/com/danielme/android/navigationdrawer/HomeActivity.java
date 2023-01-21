@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +21,7 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout.DrawerListener {
 
   private DrawerLayout drawerLayout;
+  private NavigationView navigationView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +29,14 @@ public class HomeActivity extends AppCompatActivity
     setContentView(R.layout.activity_home);
 
     Toolbar toolbar = findViewById(R.id.toolbar);
-    setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+    setSupportActionBar(findViewById(R.id.toolbar));
 
+    setupDrawer(toolbar);
+    setupNavigationView();
+    setupHeader();
+  }
+
+  private void setupDrawer(Toolbar toolbar) {
     drawerLayout = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open,
@@ -36,23 +44,23 @@ public class HomeActivity extends AppCompatActivity
     drawerLayout.addDrawerListener(toggle);
     toggle.syncState();
 
-    NavigationView navigationView = findViewById(R.id.navigation_view);
-    navigationView.setNavigationItemSelectedListener(this);
+    drawerLayout.addDrawerListener(this);
+  }
 
+  private void setupHeader() {
+    View header = navigationView.getHeaderView(0);
+    header.findViewById(R.id.header_title).setOnClickListener(view -> Toast.makeText(
+            HomeActivity.this,
+            getString(R.string.title_click),
+            Toast.LENGTH_SHORT).show());
+  }
+
+  private void setupNavigationView() {
+    navigationView = findViewById(R.id.navigation_view);
+    navigationView.setNavigationItemSelectedListener(this);
     MenuItem menuItem = navigationView.getMenu().getItem(0);
     onNavigationItemSelected(menuItem);
     menuItem.setChecked(true);
-
-    drawerLayout.addDrawerListener(this);
-
-    View header = navigationView.getHeaderView(0);
-    header.findViewById(R.id.header_title).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Toast.makeText(HomeActivity.this, getString(R.string.title_click),
-                Toast.LENGTH_SHORT).show();
-      }
-    });
   }
 
   @Override
@@ -66,27 +74,30 @@ public class HomeActivity extends AppCompatActivity
 
   @Override
   public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-    int title;
+    int title = getTitle(menuItem);
+    showFragment(title);
+    drawerLayout.closeDrawer(GravityCompat.START);
+    return true;
+  }
+
+  private int getTitle(@NonNull MenuItem menuItem) {
     switch (menuItem.getItemId()) {
       case R.id.nav_camera:
-        title = R.string.menu_camera;
-        break;
+        return R.string.menu_camera;
       case R.id.nav_gallery:
-        title = R.string.menu_gallery;
-        break;
+        return R.string.menu_gallery;
       case R.id.nav_manage:
-        title = R.string.menu_tools;
-        break;
+        return R.string.menu_tools;
       case R.id.nav_share:
-        title = R.string.menu_share;
-        break;
+        return R.string.menu_share;
       case R.id.nav_send:
-        title = R.string.menu_send;
-        break;
+        return R.string.menu_send;
       default:
         throw new IllegalArgumentException("menu option not implemented!!");
     }
+  }
 
+  private void showFragment(@StringRes int title) {
     Fragment fragment = HomeContentFragment.newInstance(getString(title));
     getSupportFragmentManager()
             .beginTransaction()
@@ -95,10 +106,6 @@ public class HomeActivity extends AppCompatActivity
             .commit();
 
     setTitle(getString(title));
-
-    drawerLayout.closeDrawer(GravityCompat.START);
-
-    return true;
   }
 
   @Override
