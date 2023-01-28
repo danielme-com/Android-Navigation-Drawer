@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/nav_camera">
+
+    <fragment
+        android:id="@+id/nav_camera"
+        android:name="com.danielme.android.navigationdrawer.HomeContentFragment"
+        android:label="@string/menu_camera"
+        tools:layout="@layout/home_fragment">
+        <argument
+            android:name="text_id"
+            android:defaultValue="@string/menu_camera"
+            app:argType="reference" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.danielme.android.navigationdrawer.HomeContentFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/home_fragment">
+        <argument
+            android:name="text_id"
+            android:defaultValue="@string/menu_gallery"
+            app:argType="reference" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_tools"
+        android:name="com.danielme.android.navigationdrawer.HomeContentFragment"
+        android:label="@string/menu_tools"
+        tools:layout="@layout/home_fragment">
+        <argument
+            android:name="text_id"
+            android:defaultValue="@string/menu_tools"
+            app:argType="reference" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.danielme.android.navigationdrawer.HomeContentFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/home_fragment">
+        <argument
+            android:name="text_id"
+            android:defaultValue="@string/menu_share"
+            app:argType="reference" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_send"
+        android:name="com.danielme.android.navigationdrawer.HomeContentFragment"
+        android:label="@string/menu_send"
+        tools:layout="@layout/home_fragment">
+        <argument
+            android:name="text_id"
+            android:defaultValue="@string/menu_send"
+            app:argType="reference" />
+    </fragment>
+
+</navigation>

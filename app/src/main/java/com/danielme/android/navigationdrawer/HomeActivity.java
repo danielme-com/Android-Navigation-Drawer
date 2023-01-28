@@ -13,6 +13,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,6 +28,7 @@ public class HomeActivity extends AppCompatActivity
   private DrawerLayout drawerLayout;
   private NavigationView navigationView;
   private Toolbar toolbar;
+  private AppBarConfiguration appBarConfiguration;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,32 @@ public class HomeActivity extends AppCompatActivity
     setSupportActionBar(findViewById(R.id.toolbar));
   }
 
+  //integration with Navigation UI
+ /* private void setupDrawer() {
+    drawerLayout = findViewById(R.id.drawer_layout);
+
+    NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+    NavController navController = navHostFragment.getNavController();
+    navigationView = findViewById(R.id.navigation_view);
+    NavigationUI.setupWithNavController(navigationView, navController);
+
+    appBarConfiguration =
+            new AppBarConfiguration.Builder(R.id.nav_camera, R.id.nav_gallery, R.id.nav_tools, R.id.nav_send, R.id.nav_share)
+                    .setOpenableLayout(drawerLayout)
+                    .build();
+
+    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+    drawerLayout.addDrawerListener(this);
+  }
+
+  @Override
+  public boolean onSupportNavigateUp() {
+    NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+    return NavigationUI.navigateUp(navController, appBarConfiguration)
+            || super.onSupportNavigateUp();
+  }*/
+
   private void setupDrawer() {
     drawerLayout = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,24 +82,24 @@ public class HomeActivity extends AppCompatActivity
     setupNavigationView();
   }
 
+  private void setupNavigationView() {
+  navigationView = findViewById(R.id.navigation_view);
+  navigationView.setNavigationItemSelectedListener(this);
+
+  //set the default selected item
+  MenuItem menuItem = navigationView.getMenu().getItem(0);
+  onNavigationItemSelected(menuItem);
+  menuItem.setChecked(true);
+
+  setupHeader();
+}
+
   private void setupHeader() {
     View header = navigationView.getHeaderView(0);
     header.findViewById(R.id.header_title).setOnClickListener(view -> Toast.makeText(
             HomeActivity.this,
             getString(R.string.title_click),
             Toast.LENGTH_SHORT).show());
-  }
-
-  private void setupNavigationView() {
-    navigationView = findViewById(R.id.navigation_view);
-    navigationView.setNavigationItemSelectedListener(this);
-
-    //set the default selected item
-    MenuItem menuItem = navigationView.getMenu().getItem(0);
-    onNavigationItemSelected(menuItem);
-    menuItem.setChecked(true);
-
-    setupHeader();
   }
 
   @Override
