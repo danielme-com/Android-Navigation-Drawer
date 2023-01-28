@@ -18,8 +18,8 @@
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_menu_tools"
             android:title="@string/menu_tools" />
     </group>
 

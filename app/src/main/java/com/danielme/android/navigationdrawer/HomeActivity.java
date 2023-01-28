@@ -93,7 +93,7 @@ public class HomeActivity extends AppCompatActivity
         return R.string.menu_camera;
       case R.id.nav_gallery:
         return R.string.menu_gallery;
-      case R.id.nav_manage:
+      case R.id.nav_tools:
         return R.string.menu_tools;
       case R.id.nav_share:
         return R.string.menu_share;
