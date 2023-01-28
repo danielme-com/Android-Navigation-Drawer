@@ -8,17 +8,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 public class HomeContentFragment extends Fragment {
 
-  private static final String TEXT = "text";
+  private static final String TEXT_ID = "text_id";
 
-  public static HomeContentFragment newInstance(String text) {
+  public static HomeContentFragment newInstance(@StringRes int textId) {
     HomeContentFragment frag = new HomeContentFragment();
 
     Bundle args = new Bundle();
-    args.putString(TEXT, text);
+    args.putInt(TEXT_ID, textId);
     frag.setArguments(args);
 
     return frag;
@@ -26,11 +27,14 @@ public class HomeContentFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
-          Bundle savedInstanceState) {
+  Bundle savedInstanceState) {
     View layout = inflater.inflate(R.layout.home_fragment, container, false);
 
     if (getArguments() != null) {
-      ((TextView) layout.findViewById(R.id.text)).setText(getArguments().getString(TEXT));
+      String text = getString(getArguments().getInt(TEXT_ID));
+      ((TextView) layout.findViewById(R.id.text)).setText(text);
+    } else {
+      throw new IllegalArgumentException("Argument " + TEXT_ID + " is mandatory");
     }
 
     return layout;

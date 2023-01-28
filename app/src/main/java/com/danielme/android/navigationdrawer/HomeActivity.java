@@ -22,21 +22,22 @@ public class HomeActivity extends AppCompatActivity
 
   private DrawerLayout drawerLayout;
   private NavigationView navigationView;
+  private Toolbar toolbar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
-
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    setSupportActionBar(findViewById(R.id.toolbar));
-
-    setupDrawer(toolbar);
-    setupNavigationView();
-    setupHeader();
+    setupToolbar();
+    setupDrawer();
   }
 
-  private void setupDrawer(Toolbar toolbar) {
+  private void setupToolbar() {
+    toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(findViewById(R.id.toolbar));
+  }
+
+  private void setupDrawer() {
     drawerLayout = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open,
@@ -45,6 +46,8 @@ public class HomeActivity extends AppCompatActivity
     toggle.syncState();
 
     drawerLayout.addDrawerListener(this);
+
+    setupNavigationView();
   }
 
   private void setupHeader() {
@@ -58,9 +61,13 @@ public class HomeActivity extends AppCompatActivity
   private void setupNavigationView() {
     navigationView = findViewById(R.id.navigation_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    //set the default selected item
     MenuItem menuItem = navigationView.getMenu().getItem(0);
     onNavigationItemSelected(menuItem);
     menuItem.setChecked(true);
+
+    setupHeader();
   }
 
   @Override
@@ -97,15 +104,15 @@ public class HomeActivity extends AppCompatActivity
     }
   }
 
-  private void showFragment(@StringRes int title) {
-    Fragment fragment = HomeContentFragment.newInstance(getString(title));
+  private void showFragment(@StringRes int titleId) {
+    Fragment fragment = HomeContentFragment.newInstance(titleId);
     getSupportFragmentManager()
             .beginTransaction()
             .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
             .replace(R.id.home_content, fragment)
             .commit();
 
-    setTitle(getString(title));
+    setTitle(getString(titleId));
   }
 
   @Override
