@@ -85,14 +85,15 @@ public class HomeActivity extends AppCompatActivity
   private void setupNavigationView() {
   navigationView = findViewById(R.id.navigation_view);
   navigationView.setNavigationItemSelectedListener(this);
-
-  //set the default selected item
-  MenuItem menuItem = navigationView.getMenu().getItem(0);
-  onNavigationItemSelected(menuItem);
-  menuItem.setChecked(true);
-
+  setDefaultMenuItem();
   setupHeader();
 }
+
+  private void setDefaultMenuItem() {
+    MenuItem menuItem = navigationView.getMenu().getItem(0);
+    onNavigationItemSelected(menuItem);
+    menuItem.setChecked(true);
+  }
 
   private void setupHeader() {
     View header = navigationView.getHeaderView(0);
